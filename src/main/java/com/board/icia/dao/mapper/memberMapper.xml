@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 회원관련 sql -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.board.icia.dao.IMemberDao"> 
+<select id="getLoginResult" parameterType="member" resultType="boolean">
+	select count(*) from m where m_id=#{m_id} and m_pwd=#{m_pwd}
+</select>
+<insert id="memberJoin" parameterType="member">
+	INSERT INTO M VALUES(#{m_id},#{m_pwd},#{m_name},#{m_birth},#{m_addr},#{m_phone},default)
+</insert>
+<select id="getSecurityPwd" parameterType="String" resultType="String">
+	SELECT M_PWD FROM m WHERE M_ID=#{m_id}
+</select>
+<select id="getMemberInfo" parameterType="String" resultType="member">
+	SELECT * FROM MINFO WHERE M_ID=#{m_id}
+</select>
+<select id="hashMapTest" parameterType="Map" resultType="boolean">
+	SELECT COUNT(*) FROM M WHERE M_ID=#{id} AND M_PWD=#{pw}
+</select>
+<select id="hashMapTest2" parameterType="String" resultType="Map">
+	SELECT * FROM MINFO WHERE M_ID=#{id}
+</select>
+
+</mapper>
+

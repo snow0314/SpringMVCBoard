@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+		
+		<!-- <beans:bean id="dataSource2" 
+		class="org.springframework.jndi.JndiObjectFactoryBean">
+		<beans:property name="jndiName" value="jdbc/OracleDB" />
+		<beans:property name="resourceRef" value="true" />
+	</beans:bean> -->
+
+	<!-- 로그를 출력하기 해서 DriverSpy이용한 jdbc설정 : Connection 이 1개만 존재 -->
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName"
+			value="net.sf.log4jdbc.DriverSpy" />
+		<property name="url"
+			value="jdbc:log4jdbc:oracle:thin:@127.0.0.1:1521:XE" />
+		<property name="username" value="icia" />
+		<property name="password" value="1111" />
+	</bean>
+
+	<!-- sqlSessionFactory::mybatis가 사용 -->
+
+	<bean id="sqlSessionFactory"
+		class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation"
+			value="classpath:com/board/icia/dao/mybatis-conf.xml" />
+		<property name="mapperLocations"
+			value="classpath:com/**/mapper/*" />
+	</bean>
+
+	<!-- 인터페이스를 검색하기위한 패키지 등록 -->
+	<!-- 인터페이스와 XML을 이용해서 DAO구현체를 만든다 -->
+	<mybatis-spring:scan
+		base-package="com.board.icia.dao" />
+
+	<!-- DAO 구현체 -->
+	<!-- <beans:bean id="mDao" class="org.mybatis.spring.mapper.MapperFactoryBean"> 
+		<beans:property name="sqlSessionFactory" ref="sqlSessionFactory" /> <beans:property 
+		name="mapperInterface" value="com.board.icia.dao.IMemberDao" /> </beans:bean> -->
+</beans>
