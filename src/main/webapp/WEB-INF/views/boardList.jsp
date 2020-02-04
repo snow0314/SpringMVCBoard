@@ -7,6 +7,57 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<style type="text/css">
+	html, body {
+	height: 100%;
+	margin: 0
+}
+
+#articleView_layer {
+	display: none;
+	position: fixed;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%
+}
+
+#articleView_layer.open {
+	display: block;
+	color: red;
+}
+
+#articleView_layer #bg_layer {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: #000;
+	opacity: .5;
+	filter: alpha(opacity = 50);
+	z-index: 100
+}
+
+#contents_layer {
+	position: absolute;
+	top: 40%;
+	left: 40%;
+	width: 400px;
+	height: 400px;
+	margin: -150px 0 0 -194px;
+	padding: 28px 28px 0 28px;
+	border: 2px solid #555;
+	background: #fff;
+	font-size: 12px;
+	z-index: 200;
+	color: #767676;
+	line-height: normal;
+	white-space: normal;
+	overflow: scroll
+}
+</style>
 <script type="text/javascript">
 	function logout() {
 		$("#logoutFrm").submit();
@@ -61,22 +112,47 @@
 		</tr>
 	</c:forEach>
 </table>
+	<!-- 페이징 -->
+	<div align="center">
+		${paging}
+	</div>
+	<!-- 모달박스 -->
+<div id="articleView_layer">
+	<div id="bg_layer"></div>
+	<div id="contents_layer"></div>
+</div>
+
 
 <script type="text/javascript">
 	function articleView(num) {
+		
+		$("#articleView_layer").addClass("open"); //모달박스 보이기
 		$.ajax({
 			type:'get',
 			url:'contents',
 			data:{bNum:num},
 			dataType:'html',
 			success:function(data){
-				alert(data);
+				$("#contents_layer").html(data);
 			},
 			error:function(error){
-				alert:(error);
+				console.log(error);
 			}
 		});
-	}
+	}//모달박스 해제
+		var $layerWindow=$("#articleView_layer");
+		$layerWindow.find("#bg_layer").on("mousedown",function(event){
+			console.log(event);
+			$layerWindow.removeClass("open");
+		});//on End
+		$(document).keydown(function(event){
+			console.log(event);
+			if(event.keyCode!=27) return;
+			else if($layerWindow.hasClass("open")){
+				$layerWindow.removeClass("open");
+			}
+		});//keydown End
+	
 </script>
 </body>
 </html>

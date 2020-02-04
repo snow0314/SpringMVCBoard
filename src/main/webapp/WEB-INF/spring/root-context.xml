@@ -32,7 +32,7 @@
 		<property name="configLocation"
 			value="classpath:com/board/icia/dao/mybatis-conf.xml" />
 		<property name="mapperLocations"
-			value="classpath:com/**/mapper/*" />
+			value="classpath:com/board/icia/dao/mapper/*.xml" />
 	</bean>
 
 	<!-- 인터페이스를 검색하기위한 패키지 등록 -->

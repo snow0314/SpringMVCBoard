@@ -14,10 +14,10 @@ public class SessionInterceptor extends HandlerInterceptorAdapter{
 		System.out.println("preHandle Call!!!!");
 		if(request.getSession().getAttribute("id")==null) {
 			response.sendRedirect("./"); //home.jsp
-			return false;
+			return false; //controller 진입 금지
 		}
 		
-		return true;
+		return true; //controller 진입 가능
 	}
 
 	@Override

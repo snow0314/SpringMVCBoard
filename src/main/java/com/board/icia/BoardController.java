@@ -17,9 +17,9 @@ public class BoardController {
 	ModelAndView mav;
 	
 	@RequestMapping(value = "/boardlist", method = RequestMethod.GET)
-	public ModelAndView boardList(Integer pageNum, HttpServletRequest request) {
+	public ModelAndView boardList(Integer pageNum) {
 		//게시판 리스트를 보여주는 메소드, int는 초기값을 null로 받을수 없기 때문에 Integer로 받는다.
-		mav=bm.getBoardList(pageNum,request);
+		mav=bm.getBoardList(pageNum);
 		
 		return mav;
 	}
