@@ -7,6 +7,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="js/jquery.serializeObject.js"></script>
 <style type="text/css">
 	html, body {
 	height: 100%;
@@ -105,7 +106,9 @@
 	<c:forEach var="board" items="${bList}">
 		<tr height="25">
 			<td align="center"> ${board.b_num }</td>
-			<td align="center"><a href="#" onclick="articleView(${board.b_num})"> ${board.b_title }</a></td>
+			<!-- href="#"은 페이지 맨 위로 이동뒤 이벤트 발생
+			href="#;"은 현재 위치에서 이벤트 발생 -->
+			<td align="center"><a href="#;" onclick="articleView(${board.b_num})"> ${board.b_title }</a></td>
 			<td align="center"> ${board.b_id }</td>
 			<td align="center"> ${board.b_date }</td>
 			<td align="center"> ${board.b_views }</td>
@@ -146,7 +149,6 @@
 			$layerWindow.removeClass("open");
 		});//on End
 		$(document).keydown(function(event){
-			console.log(event);
 			if(event.keyCode!=27) return;
 			else if($layerWindow.hasClass("open")){
 				$layerWindow.removeClass("open");

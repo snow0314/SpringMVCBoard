@@ -24,4 +24,8 @@
 	<select id="getReplyList" parameterType="Integer" resultType="reply">
 		SELECT * FROM RLIST WHERE R_BNUM=#{bNum}
 	</select>
+	
+	<insert id="replyInsert" parameterType="reply">
+		INSERT INTO R VALUES(REPLY_SEQ.NEXTVAL,#{r_bnum},#{r_contents},#{r_id},default)
+	</insert>
 </mapper>

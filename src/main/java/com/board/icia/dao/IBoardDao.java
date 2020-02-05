@@ -17,4 +17,6 @@ public interface IBoardDao {
 	
 	@Select("SELECT COUNT(*) FROM BLIST_1")
 	int getBoardCount();
+
+	boolean replyInsert(Reply r);
 }
