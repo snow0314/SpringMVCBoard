@@ -6,7 +6,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,7 +34,7 @@ public class BoardRestController {
 //		return json;
 //	}
 
-	//jackson 버전
+	//jackson 버전 : 가장 많이 쓰는 메세지 컨버터이다.
 	@RequestMapping(value = "/replyinsert", produces = "application/json;charset=UTF-8")
 	public @ResponseBody Map<String, List<Reply>> replyInsert(Reply r, HttpServletRequest req){
 		r.setR_id(req.getSession().getAttribute("id").toString());

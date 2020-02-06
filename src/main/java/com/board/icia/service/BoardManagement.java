@@ -6,16 +6,23 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import com.board.icia.dao.IBoardDao;
 import com.board.icia.dto.Board;
 import com.board.icia.dto.Reply;
+import com.board.icia.userClass.DbException;
 import com.board.icia.userClass.Paging;
 import com.google.gson.Gson;
 
 import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
+
 public class BoardManagement {
 	@Autowired
 	private IBoardDao bDao;
@@ -38,7 +45,12 @@ public class BoardManagement {
 		} else {
 			view = "home";
 		}
-
+		ModelMap map=mav.getModelMap();
+		System.out.println("map 처음상태:"+map.getAttribute("bList"));
+		List<Board> mList=(List<Board>) map.getAttribute("bList");
+		for(int i=0;i<mList.size();i++) {
+			System.out.println(mList.get(i));
+		}
 		mav.setViewName(view);
 		return mav;
 	}
@@ -96,6 +108,32 @@ public class BoardManagement {
 			rMap=null;
 		}
 		return rMap;
+	}
+	
+	//RedirectAttributes는 redirect전 session 영역에 저장한뒤 redirect 후 즉시 삭제한다.
+	//삭제직전 session 영역에 저장했던 데이터는 request 객체에 저장한다.
+	//addFlashAttribute: POST 방식(session에 저장후 1번 사용하면 삭제함)
+	//attr.addAttribute: GET 방식(session에 저장후 request 객체에 저장된 후에 session에서 삭제함)
+	@Transactional
+	public ModelAndView boardDelete(Integer bNum, RedirectAttributes attr) throws DbException {
+		System.out.println("bNum="+bNum);
+		mav=new ModelAndView();
+		boolean r=bDao.replyDelete(bNum);
+		boolean a=bDao.aticleDelete(1000);
+		if(a==false) { //0개 원글을 삭제한 경우 예외 발생시켜서 롤백
+			throw new DbException();
+		}
+		
+		if(r && a) {
+			System.out.println("삭제 트랜잭션 성공");
+			attr.addFlashAttribute("bNum", bNum); //POST 방식
+			//attr.addAttribute("bNum", bNum); //GET 방식 리퀘스트 영역에 저장
+		}else {
+			System.out.println("삭제 트랜잭션 실패");
+		}
+		//mav.addObject("bNum", bNum); //GET 방식 리퀘스트 영역에 저장
+		mav.setViewName("redirect:boardlist");
+		return mav;
 	}
 
 //	private String makeHtmlReplyInsert(List<Reply> rList) {

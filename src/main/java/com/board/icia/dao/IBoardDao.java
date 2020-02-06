@@ -19,4 +19,8 @@ public interface IBoardDao {
 	int getBoardCount();
 
 	boolean replyInsert(Reply r);
+
+	boolean replyDelete(Integer bNum);
+
+	boolean aticleDelete(Integer bNum);
 }

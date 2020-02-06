@@ -28,4 +28,13 @@
 	<insert id="replyInsert" parameterType="reply">
 		INSERT INTO R VALUES(REPLY_SEQ.NEXTVAL,#{r_bnum},#{r_contents},#{r_id},default)
 	</insert>
+	
+	<delete id="replyDelete" parameterType="Integer">
+		DELETE FROM R WHERE R_BNUM=#{bNum}
+	</delete>
+	
+	<delete id="aticleDelete" parameterType="Integer">
+		DELETE FROM B WHERE B_NUM=#{bNum}
+	</delete>
+	
 </mapper>

@@ -154,7 +154,20 @@
 				$layerWindow.removeClass("open");
 			}
 		});//keydown End
+		
+	
 	
 </script>
 </body>
+<script type="text/javascript">
+$(function(){
+	var result="${bNum}";
+	 if(result===''){
+		return;
+	} 
+	if(parseInt(result)>10){
+		alert('${bNum}'+'번 글을 삭제하였다');
+	}
+});	
+</script>
 </html>

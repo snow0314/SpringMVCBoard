@@ -11,7 +11,7 @@
 </head>
 <body>
 <h3>Board * Reply Contents</h3>
-<a href="boardDelete?bNum=${board.b_num}">삭제</a>
+<a href="boarddelete?bNum=${board.b_num}">삭제</a>
 <table>
 	<tr height="30">
 		<td width="100" bgcolor="pink" align="center">NUM</td>
@@ -78,9 +78,9 @@
 			//contentType:'application/json', 
 			dataType:'json',
 			success:function(data, status, xhr){
-				console.log(status);
+				console.log("상태:",status);
 				console.log(xhr);
-				console.log(data);
+				console.log("데이터:",data);
 				replyRenewal(data.rList);
 			},
 			error:function(xhr,status){

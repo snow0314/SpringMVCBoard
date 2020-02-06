@@ -7,8 +7,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.board.icia.service.BoardManagement;
+import com.board.icia.userClass.DbException;
 
 @Controller
 public class BoardController {
@@ -31,4 +33,11 @@ public class BoardController {
 		return mav;
 	}
 	
+	@RequestMapping(value = "/boarddelete",method = RequestMethod.GET) //method 생략하면 GET, POST 모두 가능
+	public ModelAndView boardDelete(Integer bNum, RedirectAttributes attr) throws DbException {
+		mav=bm.boardDelete(bNum,attr);
+		
+		//attr.addFlashAttribute("bNum", bNum); //무조건 삭제 후
+		return mav;
+	}
 }

@@ -46,7 +46,7 @@ public class HomeController {
 	public ModelAndView logout(HttpServletRequest request) {
 		mav=new ModelAndView();
 		request.getSession().invalidate(); //세션을 삭제
-		mav.setViewName("home");
+		mav.setViewName("redirect:home");
 		return mav;
 	}
 	
