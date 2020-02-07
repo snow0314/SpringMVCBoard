@@ -40,4 +40,9 @@ public class BoardController {
 		//attr.addFlashAttribute("bNum", bNum); //무조건 삭제 후
 		return mav;
 	}
+	
+	@RequestMapping(value = "/writefrm") //method 생략하면 GET, POST 모두 가능
+	public String writeFrm() {
+		return "writeFrm";
+	}
 }

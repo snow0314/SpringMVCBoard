@@ -1,5 +1,7 @@
 package com.board.icia;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "file:src/main/webapp/WEB-INF/spring/**/root-context.xml")
+@ContextConfiguration(locations = "file:src/main/webapp/WEB-INF/spring/root-context.xml")
 @Transactional //업데이트, 삭제 등 DB 수정하는 쿼리문이 테스트만 하고 실제로 반영은 안되게 하는 어노테이션
 public class MemberDaoTest {
 	@Autowired
@@ -22,10 +24,11 @@ public class MemberDaoTest {
 	@Test
 	public void loginTest() {
 		log.info("dao={}",dao);
+		assertThat(dao, is(notNullValue()));
 		log.info("단위테스트");
 		Member mb=new Member().setM_id("LEE").setM_pwd("1111");
 		assertThat(dao.getLoginResult(mb), is(true));
-		mb=dao.getMemberInfo("aaa");
-		assertThat(mb.getM_name(), is("아"));
+		mb=dao.getMemberInfo("LEE");
+		assertThat(mb.getM_name(), is(notNullValue()));
 	}
 }
