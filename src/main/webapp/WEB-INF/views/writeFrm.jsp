@@ -87,7 +87,7 @@ textarea {
 		console.dir($obj[0].files[1]); //2번째 파일 정보
 	
 		//FormData 사용 목적
-		//1.multipart/form-data를 전송시 무조건 사용(파일 업로드)
+		//1.multipart/form-data를 Ajax전송시 사용(파일 업로드)
 		//2.ajax를 이용해서 서버로 넘긴다.(restFul에서 사용함)
 		//3.FormData 객체는 form의 일부데이터만 서버에 전송할때고 좋습니다.
 		//var formData=new FormData($("#frm")); //폼데이터 객체, 제이쿼리 객체여서 에러난다.
@@ -118,6 +118,7 @@ textarea {
 		    success:function(data){
 		    	alert("성공");
 		    	console.dir(data);
+		    	location.href="./boardlist"; //restFul에서는 보통 이렇게 포워딩한다.
 		    },
 		    error:function(error){
 		    	alert("실패");

@@ -1,11 +1,16 @@
 package com.board.icia;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -45,4 +50,13 @@ public class BoardController {
 	public String writeFrm() {
 		return "writeFrm";
 	}
+	
+	@PostMapping(value="/boardwrite")
+	public ModelAndView boardWrite(MultipartHttpServletRequest multi) {
+		mav=new ModelAndView();
+		mav=bm.boardWrite(multi);
+		
+		return mav;
+	}
+	
 }

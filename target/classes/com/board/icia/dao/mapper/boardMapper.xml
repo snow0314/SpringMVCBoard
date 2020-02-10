@@ -37,4 +37,12 @@
 		DELETE FROM B WHERE B_NUM=#{bNum}
 	</delete>
 	
+	<insert id="boardWrite" parameterType="board" useGeneratedKeys="true" keyProperty="b_num">
+		<selectKey keyProperty="b_num" resultType="int" order="BEFORE" >
+				SELECT BOARD_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO B VALUES(#{b_num}, #{b_title},#{b_contents},#{b_id},DEFAULT,DEFAULT)
+	</insert>
+	
+	
 </mapper>

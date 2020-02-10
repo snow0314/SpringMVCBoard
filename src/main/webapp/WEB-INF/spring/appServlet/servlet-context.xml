@@ -34,6 +34,12 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 
+	<!-- root-context.xml에 있던 설정 가독성을 위해 여기로 옮김-->
+	<beans:bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<beans:property name="dataSource" ref="dataSource" />
+	</beans:bean>
+
 	<!-- @Transactional 어노테이션 사용하기 위해, 안되면 sevlet-context.xml에 설정해야 됨 -->	
 	<tx:annotation-driven transaction-manager="transactionManager"/>
 	
