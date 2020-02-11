@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,14 +17,16 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.board.icia.dao.IBoardDao;
+import com.board.icia.dto.Bfile;
 import com.board.icia.dto.Board;
 import com.board.icia.dto.Reply;
 import com.board.icia.userClass.DbException;
+import com.board.icia.userClass.FileManager;
 import com.board.icia.userClass.Paging;
-import com.board.icia.userClass.UploadFile;
 import com.google.gson.Gson;
 
 import lombok.extern.slf4j.Slf4j;
+import oracle.sql.BFILE;
 
 @Slf4j
 @Service
@@ -30,7 +34,7 @@ public class BoardManagement {
 	@Autowired
 	private IBoardDao bDao;
 	@Autowired
-	private UploadFile upload;
+	private FileManager fm;
 	ModelAndView mav;
 
 	public ModelAndView getBoardList(Integer pageNum) {
@@ -76,11 +80,15 @@ public class BoardManagement {
 
 		Board board = bDao.getContents(bNum);
 		mav.addObject("board", board);
-		log.info("board:{}", board);
-
+		//log.info("board:{}", board);
+		
+		List<Bfile> bfList=bDao.getBfList(bNum);
+		System.out.println("file size:"+bfList.size());
+		mav.addObject("bfList", bfList);
+		
 		List<Reply> rList = bDao.getReplyList(bNum);
 		mav.addObject("rList", rList);
-		log.info("rList size:{}", rList.size());
+		//log.info("rList size:{}", rList.size());
 
 		view = "boardContentsAjax"; // jsp
 		mav.setViewName(view);
@@ -124,15 +132,19 @@ public class BoardManagement {
 		System.out.println("bNum=" + bNum);
 		mav = new ModelAndView();
 		boolean r = bDao.replyDelete(bNum);
-		boolean a = bDao.aticleDelete(1000);
+		List<Bfile> bfList=bDao.getBfList(bNum);
+		boolean f= bDao.fileDelete(bNum);
+		fm.delete(bfList);
+		
+		boolean a = bDao.aticleDelete(bNum);
 		if (a == false) { // 0개 원글을 삭제한 경우 예외 발생시켜서 롤백
 			throw new DbException();
 		}
 
-		if (r && a) {
-			System.out.println("삭제 트랜잭션 성공");
-			attr.addFlashAttribute("bNum", bNum); // POST 방식
-			// attr.addAttribute("bNum", bNum); //GET 방식 리퀘스트 영역에 저장
+		if (r && a && f) {
+			System.out.println("댓글 ,파일, 원글 존재시 삭제 트랜잭션 성공");
+			attr.addFlashAttribute("bNum", bNum); // post방식
+			// attr.addAttribute("bNum", bNum); //get방식으로 request객체
 		} else {
 			System.out.println("삭제 트랜잭션 실패");
 		}
@@ -175,7 +187,7 @@ public class BoardManagement {
 		boolean f = false;
 		if (check == 1) {
 			//int bnum = bDao.getCurBoardNum(); // 현재 글번호
-			f = upload.fileUp(multi, board.getB_num());
+			f = fm.fileUp(multi, board.getB_num());
 
 			if (f) {
 				view = "redirect:/boardlist"; // URI
@@ -186,6 +198,21 @@ public class BoardManagement {
 		
 		mav.setViewName(view);
 		return mav;
+	}
+
+	public void download(String sysfilename, HttpServletResponse response) {
+		String fullPath="K:/springWork/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/SpringMVCBoard/upload/"+sysfilename;
+		System.out.println("sysFileName="+sysfilename);
+		String oriName=bDao.getOriFileName(sysfilename);
+		
+		try {
+			System.out.println("oriName:"+oriName);
+			fm.download(fullPath, oriName, response);
+		} catch (Exception e) {
+			System.out.println("BoardManagement, download 메소드에서 예외 발생!!");
+			e.printStackTrace();
+		}
+		
 	}
 
 }

@@ -33,6 +33,19 @@
 		<td bgcolor="pink" align="center">CONTENTS</td>
 		<td colspan="5">${board.b_contents}</td>
 	</tr>
+	<tr>
+		<td>첨부파일</td>
+		<td><c:set var="file" value="${bfList}"/> 
+			<c:if test="${empty file}">
+				첨부된 파일이 없습니다.
+			</c:if>
+			<c:if test="${!empty file}">
+				<c:forEach var="file" items="${bfList}">
+					<a href="./download?sysfilename=${file.bf_sysName}">${file.bf_oriName}</a>
+				</c:forEach>
+			</c:if>
+		</td>
+	</tr>
 </table>
 
 <form id="rFrm" name="rFrm" action="rFrm">

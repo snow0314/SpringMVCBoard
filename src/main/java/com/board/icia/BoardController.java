@@ -3,6 +3,7 @@ package com.board.icia;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.board.icia.dto.Bfile;
 import com.board.icia.service.BoardManagement;
 import com.board.icia.userClass.DbException;
 
@@ -57,6 +59,13 @@ public class BoardController {
 		mav=bm.boardWrite(multi);
 		
 		return mav;
+	}
+	
+	@RequestMapping(value="/download")
+	public void download(String sysfilename, HttpServletResponse response) {
+		
+		bm.download(sysfilename,response);
+
 	}
 	
 }

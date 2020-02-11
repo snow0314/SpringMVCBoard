@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 
+import com.board.icia.dto.Bfile;
 import com.board.icia.dto.Board;
 import com.board.icia.dto.Reply;
 
@@ -30,6 +31,13 @@ public interface IBoardDao {
 
 	@Insert("INSERT INTO BF VALUES(BF_SEQ.NEXTVAL,#{bnum}, #{oriFileName}, #{sysFileName})")
 	boolean fileInsert(Map<String, String> fMap);
+	
+	@Select("SELECT * FROM BF WHERE BF_BNUM=#{bNum}")
+	List<Bfile> getBfList(Integer bNum);
+	
+	String getOriFileName(String sysfilename);
+
+	boolean fileDelete(Integer bNum);
 
 //	@Select("SELECT BOARD_SEQ.CURRVAL FROM DUAL")
 //	int getCurBoardNum();

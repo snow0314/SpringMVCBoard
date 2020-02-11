@@ -25,6 +25,8 @@
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources 
 		in the /WEB-INF/views directory -->
+	
+	<!-- @Controller 패키지는 반드시 servlet-context.xml 위치해야 한다. -->
 	<context:component-scan
 		base-package="com.board.icia" />
 

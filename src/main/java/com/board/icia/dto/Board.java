@@ -7,9 +7,10 @@ import org.apache.ibatis.type.Alias;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-@Alias("board")
+
 @Data
 @Accessors(chain=true)
+@Alias("board")
 public class Board {
 	private int b_num;
 	private String b_title;

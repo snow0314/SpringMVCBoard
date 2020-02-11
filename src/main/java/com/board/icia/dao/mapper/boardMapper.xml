@@ -36,7 +36,8 @@
 	<delete id="aticleDelete" parameterType="Integer">
 		DELETE FROM B WHERE B_NUM=#{bNum}
 	</delete>
-	
+	<!-- useGeneratedKeys="true"(자동증가값을 얻을 수 있음)
+	keyProperty="b_num"(필드명) 오라클은 생략가능하지만 my-sql은 명시해야 됨 -->
 	<insert id="boardWrite" parameterType="board" useGeneratedKeys="true" keyProperty="b_num">
 		<selectKey keyProperty="b_num" resultType="int" order="BEFORE" >
 				SELECT BOARD_SEQ.NEXTVAL FROM DUAL
@@ -44,5 +45,12 @@
 		INSERT INTO B VALUES(#{b_num}, #{b_title},#{b_contents},#{b_id},DEFAULT,DEFAULT)
 	</insert>
 	
+	<select id="getOriFileName" resultType="String">
+		SELECT BF_ORINAME FROM BF WHERE BF_SYSNAME=#{sysfilename}
+	</select>
+	
+	<delete id="fileDelete" parameterType="Integer">
+		DELETE FROM BF WHERE BF_BNUM=#{bNum}
+	</delete>
 	
 </mapper>
