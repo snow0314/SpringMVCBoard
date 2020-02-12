@@ -20,6 +20,7 @@ import com.board.icia.dao.IBoardDao;
 import com.board.icia.dto.Bfile;
 import com.board.icia.dto.Board;
 import com.board.icia.dto.Reply;
+import com.board.icia.exception.PageException;
 import com.board.icia.userClass.DbException;
 import com.board.icia.userClass.FileManager;
 import com.board.icia.userClass.Paging;
@@ -44,6 +45,9 @@ public class BoardManagement {
 		String view = null;
 		int pNum = (pageNum == null) ? 1 : pageNum; // 삼항연산자, pageNum이 null이면 1, 아니면 pageNum을 pNum에 넣는다.
 
+		if(pNum <= 0)
+			throw new PageException("페이지번호가 잘못되었습니다.");
+		
 		bList = bDao.getBoardList(pNum);
 		// 로그인시 게시판 리스트 보여주기
 

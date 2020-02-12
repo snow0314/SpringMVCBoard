@@ -68,6 +68,7 @@
 </head>
 <body>
 <h2>게시판 리스트</h2>
+${msg}
 <c:if test="${!empty id}">
 	<div align="right">
 	<!-- 	<a href="logout">로그아웃</a> -->
