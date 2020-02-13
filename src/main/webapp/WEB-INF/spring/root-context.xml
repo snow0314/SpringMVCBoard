@@ -22,8 +22,6 @@
 		<property name="password" value="1111" />
 	</bean>
 
-
-
 	<!-- sqlSessionFactory::mybatis가 사용 -->
 	<bean id="sqlSessionFactory"
 		class="org.mybatis.spring.SqlSessionFactoryBean">
